@@ -1,0 +1,15 @@
+---
+- name: Reboot Host Servers
+  hosts: all
+  vars_files: 
+    - vault.yml
+  become: true
+
+  tasks:
+  - name: Reboot
+    ansible.builtin.reboot:
+      reboot_timeout: 300       # Maximum - Ansible macht sofort weiter wenn Host zurück ist
+      connect_timeout: 10       # Timeout pro Verbindungsversuch
+      pre_reboot_delay: 0       # Wartezeit vor dem Reboot (Sekunden)
+      post_reboot_delay: 10     # Wartezeit nach erstem Ping bevor weitergemacht wird
+      msg: "Ansible rebooted the host"

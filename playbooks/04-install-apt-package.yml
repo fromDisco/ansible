@@ -1,0 +1,11 @@
+---
+- name: Installing an apt package
+  hosts: localhost
+
+  tasks:
+    - name: install wireshark from apt
+      apt: 
+        name: wireshark
+        state: present
+      become: true
+      become_user: michel

@@ -1,0 +1,10 @@
+---
+- name: Ansible playbook with multiple tasks
+  hosts: localhost
+
+  tasks:
+    - name: Test connectivity with ping
+      ping: 
+
+    - name: Print to stdout
+      debug: msg="Second tasks done"

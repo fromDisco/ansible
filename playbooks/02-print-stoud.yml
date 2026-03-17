@@ -1,0 +1,7 @@
+---
+- name: Print something in stdout
+  hosts: localhost
+
+  tasks:
+    - name: Print to stout
+      debug: msg="rocon sucks"

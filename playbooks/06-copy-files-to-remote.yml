@@ -1,0 +1,19 @@
+---
+- name: Copy files to remote host
+  hosts: all
+
+  tasks:
+  - name: Copy README.md
+    copy: 
+      src: /home/michel/Documents/programming/ground/HELP.md
+      dest: /home/michel/
+      owner: michel
+      group: michel 
+      mode: 0644
+  - name: Copy Shell Script
+    copy: 
+      src: /home/michel/Documents/programming/ansible/ansible-tutorial/testdata/bash-script-reboot.sh
+      dest: /home/michel/
+      owner: michel
+      group: michel 
+      mode: 0644

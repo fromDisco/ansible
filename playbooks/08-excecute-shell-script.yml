@@ -1,0 +1,15 @@
+---
+- name: Excecute Shell Scripts
+  hosts: all
+  vars_files: 
+    - vault.yml
+  become: true
+
+  tasks:
+    - name: Shutdown Hosts
+      ansible.builtin.command: /home/michel/bash-script-reboot.sh
+      changed_when: false
+      failed_when: >
+        'Connection reset by peer' not in (result.msg | default(''))
+        and result.rc | default(0) != 0
+      register: result

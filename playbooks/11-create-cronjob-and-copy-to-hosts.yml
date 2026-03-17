@@ -1,0 +1,34 @@
+---
+- name: Create Cronjobs on hostmachines
+  hosts: all
+  vars_files: 
+    - vault.yml
+  become: true
+
+  tasks:
+    - name: create Directory if not exists
+      file: 
+        path: /home/michel/cronjobs/
+        state: directory
+        owner: michel
+        group: michel
+        mode: 0755
+    - name: Copy Shell-Script to Remote
+      copy: 
+        src: /home/michel/Documents/programming/ansible/ansible-tutorial/testdata/cronjob-shellscript.sh
+        dest: /home/michel/cronjobs/
+        owner: michel
+        group: michel 
+        mode: 0711
+    - name: Schedule cronjob update and upgrade
+      ansible.builtin.cron:
+        name: apt update && apt upgrade
+        minute: "*/5"
+        hour: "*"
+        day: "*"
+        month: "*"
+        weekday: "*"
+        user: root
+        job: /home/michel/cronjobs/cronjob-shellscript.sh
+
+

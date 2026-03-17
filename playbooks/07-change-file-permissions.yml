@@ -1,0 +1,9 @@
+---
+- name: Change file permissions
+  hosts: all
+
+  tasks:
+    - name: Change file Permission
+      file:
+        path: /home/michel/bash-script-reboot.sh
+        mode: 0755
