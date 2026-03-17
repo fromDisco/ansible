@@ -1,0 +1,16 @@
+---
+- name: Create user on hostmachines
+  hosts: all
+  vars_files: 
+    - vault.yml
+  become: true
+
+  tasks:
+    - name: Create user ansible
+      ansible.builtin.user:
+        name: ansible
+        home: /home/ansible
+        shell: /bin/bash
+        create_home: yes
+        state: present
+
