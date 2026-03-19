@@ -1,0 +1,22 @@
+---
+- name: Dowload Nvim. Use link from va file
+  hosts: all
+  vars_files: 
+    - /home/michel/Documents/programming/ansible/ansible-tutorial/playbooks/vars/nvim-download-link.yml
+
+  tasks:
+    - name: create dowload directory
+      file: 
+        path: /home/michel/downloads/
+        state: directory
+        mode: 0755
+        owner: michel
+        group: michel
+
+    - name: Download nvim
+      ansible.builtin.get_url: 
+        url: "{{ nvim_link }}"
+        dest: /home/michel/downloads/
+        mode: 0755
+        owner: michel
+        group: michel

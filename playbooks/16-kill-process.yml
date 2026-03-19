@@ -1,0 +1,7 @@
+---
+- name: Kill running processes
+  hosts: all
+
+  tasks:
+    - name: Get Process ID of Apache2
+

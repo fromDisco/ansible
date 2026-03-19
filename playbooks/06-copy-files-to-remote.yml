@@ -17,3 +17,10 @@
       owner: michel
       group: michel 
       mode: 0644
+  - name: Copy gitignore 
+    copy: 
+      src: /home/michel/Documents/programming/ansible/ansible-tutorial/playbooks/.gitignore
+      dest: /home/michel/
+      owner: michel
+      group: michel 
+      mode: 0644
