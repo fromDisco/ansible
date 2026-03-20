@@ -1,0 +1,30 @@
+---
+- name: Create User {{ user.name }}
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+    groups: "{{ user.groups | default([]) | map(attribute='name') | join(',') }}"
+    state: "{{ user.state }}"
+    create_home: "{{ user.create_home }}"
+    password: "{{ user.password|password_hash('sha512') }}"
+    shell: "{{ user.shell }}"
+
+- name: create SSH directory for {{ user.name }}
+  ansible.builtin.file:
+    path: /home/{{ user.name }}/.ssh
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0700"
+  when: 
+    - user.create_home 
+    - user.ssh_pub_key_location is defined
+  register: ssh_dir_created
+
+- name: Copy SSH-Key for passwordless login to remote Host for {{ user.name }}
+  ansible.posix.authorized_key:
+    user: "{{ user.name }}"
+    state: present
+    key: "{{ lookup('ansible.builtin.file', user.ssh_pub_key_location) }}"
+  when: 
+    - ssh_dir_created
+    - user.ssh_pub_key_location is defined

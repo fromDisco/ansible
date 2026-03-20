@@ -1,0 +1,21 @@
+---
+- name: Loop over user groups and create
+  ansible.builtin.include_tasks:
+    file: groups.yml
+  loop: "{{ users_groups }}"
+  loop_control:
+    label: "{{ group.name }}"
+    loop_var: group
+  when: 
+    - users_groups is defined
+
+- name: Loop over users and create
+  ansible.builtin.include_tasks:
+    file: users.yml
+  loop: "{{ users }}"
+  loop_control: 
+    label: "{{ user.name }}"
+    loop_var: user
+  when:
+    - users is defined
+

@@ -1,0 +1,11 @@
+---
+- name: Create Users by roles
+  hosts: presentation
+  vars_files: 
+    - vars/vault.yml
+    - vars/users.yml
+  become: true
+
+  roles:
+    - role: users
+
