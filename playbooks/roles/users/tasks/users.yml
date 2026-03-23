@@ -5,6 +5,7 @@
     groups: "{{ user.groups | default([]) | map(attribute='name') | join(',') }}"
     state: "{{ user.state }}"
     create_home: "{{ user.create_home }}"
+    home: "{{ user.home | default('/home/' + user.name) }}"
     password: "{{ user.password|password_hash('sha512') }}"
     shell: "{{ user.shell }}"
 
@@ -28,3 +29,12 @@
   when: 
     - ssh_dir_created
     - user.ssh_pub_key_location is defined
+
+- name: add sudo rights for users
+  community.general.sudoers: 
+    name: add sudo rights {{ user.sudo_options }} for user {{ user.name }}
+    state: present
+    user: "{{ user.name }}"
+    commands: "{{ user.sudo_options }}"
+  when: 
+    - user.sudo_options is defined

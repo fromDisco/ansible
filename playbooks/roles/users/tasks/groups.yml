@@ -3,3 +3,13 @@
   ansible.builtin.group:
     name: "{{ group.name }}"
     state: present
+
+- name: Add sudo rights for groups
+  community.general.sudoers: 
+    name:  "{{ group.name }}"
+    state: present
+    group: "{{ group.name }}"
+    commands: "{{ group.sudo_options }}"
+    nopassword: "{{ group.sudo_nopassword }}"
+  when: 
+    - group.sudo_options is defined
