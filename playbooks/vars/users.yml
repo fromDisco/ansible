@@ -6,6 +6,9 @@ users_groups:
     sudo_options: ALL
     sudo_nopassword: false
 
+  - name: managers
+    sudo_options: ALL
+
 users:
   - name: ansible
     password: "1234"
@@ -37,5 +40,15 @@ users:
       - name: admins
     state: present 
     create_home: true
+    shell: /bin/bash
+    ssh_pub_key_location: /root/.ssh/id_ed25519.pub
+
+  - name: manager01
+    password: "1234"
+    groups: 
+      - name: managers
+    state: present 
+    create_home: true
+    sudo_options: ALL
     shell: /bin/bash
     ssh_pub_key_location: /root/.ssh/id_ed25519.pub

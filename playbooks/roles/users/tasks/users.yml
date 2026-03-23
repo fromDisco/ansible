@@ -32,9 +32,10 @@
 
 - name: add sudo rights for users
   community.general.sudoers: 
-    name: add sudo rights {{ user.sudo_options }} for user {{ user.name }}
+    name: "{{ user.name }}"
     state: present
     user: "{{ user.name }}"
     commands: "{{ user.sudo_options }}"
+    nopassword: "{{ user.sudo_nopassword | default('false')}}"
   when: 
     - user.sudo_options is defined

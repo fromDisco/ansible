@@ -10,6 +10,6 @@
     state: present
     group: "{{ group.name }}"
     commands: "{{ group.sudo_options }}"
-    nopassword: "{{ group.sudo_nopassword }}"
+    nopassword: "{{ group.sudo_nopassword | default('false') }}"
   when: 
     - group.sudo_options is defined
