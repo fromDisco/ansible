@@ -1,0 +1,8 @@
+---
+- name: install Java
+  ansible.builtin.include_tasks:
+    file: java.yml
+
+- name: Install tomcat
+  ansible.builtin.include_tasks:
+    file: tomcat.yml

@@ -1,0 +1,11 @@
+---
+- name: Install Java 25 JDK
+  ansible.builtin.apt:
+    name: openjdk-25-jdk
+    state: present
+    update_cache: true
+
+# - name: Set Java 25 as default
+#   community.general.alternatives:
+#     name: java
+#     path: /usr/lib/jvm/java-25-openjdk-amd64/bin/java 
