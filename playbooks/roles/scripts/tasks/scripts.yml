@@ -1,0 +1,8 @@
+--- 
+- name: Install Backup Scripts
+  ansible.builtin.copy:
+    src: /home/michel/Documents/programming/ansible/ansible-tutorial/testdata/scripts/
+    dest: /scripts
+    owner: root
+    group: root
+    mode: 0744

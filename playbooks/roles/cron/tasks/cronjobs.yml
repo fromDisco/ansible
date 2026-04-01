@@ -1,0 +1,16 @@
+--- 
+- name: create /var/log/cron/ directory
+  ansible.builtin.file:
+    path: /var/log/cron
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Creates a crontab entry in /etc/crontab
+  ansible.builtin.blockinfile:
+    path: /etc/crontab
+    state: present
+    marker: "# {mark} ANSIBLE MANAGED - update system"
+    block: |
+      */5 * * * * root /scripts/security-updates.sh >> /var/log/cron/cron.log 2>&1

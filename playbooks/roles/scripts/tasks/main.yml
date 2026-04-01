@@ -1,0 +1,4 @@
+---
+- name: Copy and install backup scripts
+  ansible.builtin.include_tasks:
+    file: scripts.yml

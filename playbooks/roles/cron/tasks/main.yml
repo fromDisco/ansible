@@ -1,0 +1,4 @@
+---
+- name: Backups for MySQL
+  ansible.builtin.include_tasks:
+    file: cronjobs.yml

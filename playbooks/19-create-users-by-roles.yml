@@ -1,20 +1,33 @@
 ---
-- name: Create Users by roles
+# - name: Create Users by roles
+#   hosts: presentation
+#   vars_files: 
+#     - vars/vault.yml
+#     - vars/users.yml
+#   become: true
+#   roles:
+#     - role: users
+# 
+# - name: Install Apps
+#   hosts: presentation
+#   vars_files: 
+#     - vars/vault.yml
+#   become: true
+#   roles:
+#     - role: apps
+
+- name: Install Scripts 
   hosts: presentation
   vars_files: 
     - vars/vault.yml
-    - vars/users.yml
   become: true
+  roles: 
+    - role: scripts
 
-  roles:
-    - role: users
-
-- name: Install Apps
+- name: Configure Cronjobs in /etc/crontab
   hosts: presentation
   vars_files: 
     - vars/vault.yml
   become: true
-
-  roles:
-    - role: apps
-
+  roles: 
+    - role: cron
