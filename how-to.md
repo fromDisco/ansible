@@ -9,6 +9,8 @@ nvim inventory
 ------------
 192.168.178.36
 
+# install ansible packages
+ansible-galaxy collection install community.general
 
 # /etc/ansible/hosts
 ansible-remote-host-01 ansible_ssh_host=192.168.178.33 ansible_user=michel
