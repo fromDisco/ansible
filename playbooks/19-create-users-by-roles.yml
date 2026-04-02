@@ -8,26 +8,26 @@
 #   roles:
 #     - role: users
 # 
-# - name: Install Apps
+- name: Install Apps
+  hosts: presentation
+  vars_files: 
+    - vars/vault.yml
+  become: true
+  roles:
+    - role: apps
+
+# - name: Install Scripts 
 #   hosts: presentation
 #   vars_files: 
 #     - vars/vault.yml
 #   become: true
-#   roles:
-#     - role: apps
-
-- name: Install Scripts 
-  hosts: presentation
-  vars_files: 
-    - vars/vault.yml
-  become: true
-  roles: 
-    - role: scripts
-
-- name: Configure Cronjobs in /etc/crontab
-  hosts: presentation
-  vars_files: 
-    - vars/vault.yml
-  become: true
-  roles: 
-    - role: cron
+#   roles: 
+#     - role: scripts
+# 
+# - name: Configure Cronjobs in /etc/crontab
+#   hosts: presentation
+#   vars_files: 
+#     - vars/vault.yml
+#   become: true
+#   roles: 
+#     - role: cron

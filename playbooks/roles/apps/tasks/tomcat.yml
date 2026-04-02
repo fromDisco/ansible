@@ -1,6 +1,29 @@
 --- 
+# include_vars - loaded at task execution time
+- name: Load variables dynamically
+  ansible.builtin.include_vars:
+    file: vars/tomcat-11-0-18.yml
+
+- name: Get directory name of tomcat
+  ansible.builtin.set_fact:
+    tomcat_dir: "{{ tomcat_link | regex_search('(.*\\/)([\\w\\W]*)(\\.tar\\.gz)', '\\2') | first }}"
+
+- name: Get Name of tar file
+  ansible.builtin.set_fact:
+    tomcat_tar: "{{ tomcat_link | regex_search('(.*\\/)([\\w\\W]*\\.tar\\.gz)', '\\2') | first }}"
+
+- name: Check if Tomcat Version {{ tomcat_version }} is already existing
+  ansible.builtin.stat:
+    path: "/opt/tomcat/{{ tomcat_dir }}"
+  register: tomcat_dir
+
+- name: If Tomcat Version already exists, end role
+  ansible.builtin.meta: end_role
+  when: 
+    - tomcat_dir.stat.exists
+
 - name: create tomcat directory
-  file: 
+  ansible.builtin.file: 
     path: /opt/tomcat/
     state: directory
     mode: 0755
@@ -8,7 +31,7 @@
     group: tomcat
 
 - name: create /var/log/tomcat directory
-  file: 
+  ansible.builtin.file: 
     path: /var/log/tomcat/
     state: directory
     mode: 0755
@@ -18,16 +41,20 @@
 # TODO: variable instead of hard coded url
 - name: Download tomcat
   ansible.builtin.get_url: 
-    url: https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.18/bin/apache-tomcat-11.0.18.tar.gz 
+    url: "{{ tomcat_link }}"
     dest: /opt/tomcat/
     mode: 0755
     owner: tomcat
     group: tomcat
 
+- name: "-------------- Show variables --------------------"
+  ansible.builtin.debug:
+    msg: "DIR: {{ tomcat_dir }} ----- TAR: /opt/tomcat/{{ tomcat_tar }} \\n {{ tomcat_version }}"
+
 # TODO: variable instead of hard coded path
 - name: Unpack tar.gz file
   ansible.builtin.unarchive:
-    src: /opt/tomcat/apache-tomcat-11.0.18.tar.gz
+    src: "/opt/tomcat/{{ tomcat_tar }}"
     remote_src: yes
     dest: /opt/tomcat/
     owner: tomcat
@@ -36,7 +63,7 @@
 
 - name: Create Symlink for Tomcat
   ansible.builtin.file:
-    src: /opt/tomcat/apache-tomcat-11.0.18
+    src: "/opt/tomcat/{{ tomcat_dir }}"
     dest: /opt/tomcat/recent
     owner: tomcat
     group: tomcat
@@ -60,7 +87,7 @@
       export CATALINA_OUT=/var/log/tomcat/catalina.out
 
 - name: Ensure lxml is installed
-  package:
+  ansible.builtin.package:
     name: python3-lxml
     state: present
 
