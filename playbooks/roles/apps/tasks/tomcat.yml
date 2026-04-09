@@ -12,7 +12,7 @@
   ansible.builtin.set_fact:
     tomcat_tar: "{{ tomcat_link | regex_search('(.*\\/)([\\w\\W]*\\.tar\\.gz)', '\\2') | first }}"
 
-- name: Check if Tomcat Version {{ tomcat_version }} is already existing
+- name: Check if Tomcat Version {{ tomcat_dir }} is already existing
   ansible.builtin.stat:
     path: "/opt/tomcat/{{ tomcat_dir }}"
   register: tomcat_dir
@@ -49,7 +49,7 @@
 
 - name: "-------------- Show variables --------------------"
   ansible.builtin.debug:
-    msg: "DIR: {{ tomcat_dir }} ----- TAR: /opt/tomcat/{{ tomcat_tar }} \\n {{ tomcat_version }}"
+    msg: "DIR: {{ tomcat_dir }} ----- TAR: /opt/tomcat/{{ tomcat_tar }} \\n {{ tomcat_dir }}"
 
 # TODO: variable instead of hard coded path
 - name: Unpack tar.gz file
