@@ -52,6 +52,7 @@
 ## green.example.com
 ## blue.example.com
 
+[presentation]
 AnsibleRemoteHost01 ansible_host=192.168.178.33
 AnsibleRemoteHost02 ansible_host=192.168.178.35
 AnsibleRemoteHost03 ansible_host=192.168.178.36

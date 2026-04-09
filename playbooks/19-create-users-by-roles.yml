@@ -10,8 +10,6 @@
 # 
 - name: Install Apps
   hosts: presentation
-  vars_files: 
-    - vars/vault.yml
   become: true
   roles:
     - role: apps
